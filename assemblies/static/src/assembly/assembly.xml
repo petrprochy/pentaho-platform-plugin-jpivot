@@ -13,7 +13,17 @@
     <fileSet>
       <directory>${project.basedir}/src/main/resources</directory>
       <outputDirectory>.</outputDirectory>
+      <excludes>
+        <exclude>version.xml</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/src/main/resources</directory>
+      <outputDirectory>.</outputDirectory>
       <filtered>true</filtered>
+      <includes>
+        <include>version.xml</include>
+      </includes>
     </fileSet>
   </fileSets>
 
