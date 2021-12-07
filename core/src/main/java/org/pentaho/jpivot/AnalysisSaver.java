@@ -44,6 +44,8 @@ import org.pentaho.platform.plugin.action.mondrian.MissingParameterException;
 import org.pentaho.platform.util.messages.LocaleHelper;
 import org.pentaho.platform.util.xml.XmlHelper;
 
+import static org.pentaho.platform.repository.RepositoryFilenameUtils.removeExtension;
+
 /**
  * Utility class used to save an analysis action sequence from a JPivot view.
  */
@@ -115,6 +117,7 @@ public class AnalysisSaver extends PentahoMessenger {
       // Update the document with the stuff we passed in on the props
       document = AnalysisSaver.updateDocument(document, props);
       fileName = fileName.endsWith(AnalysisSaver.SUFFIX) ? fileName : fileName + AnalysisSaver.SUFFIX;
+      final String name = removeExtension(fileName);
 
       path = cleansePath(path, fileName);
       
@@ -133,7 +136,7 @@ public class AnalysisSaver extends PentahoMessenger {
             "Update to existing file");
       } else {
         RepositoryFile parentFile = repository.getFile(path);
-        jpivotRepoFile = new RepositoryFile.Builder(fileName).title(RepositoryFile.ROOT_LOCALE, fileName).description(RepositoryFile.ROOT_LOCALE, fileName).build();
+        jpivotRepoFile = new RepositoryFile.Builder(fileName).title(RepositoryFile.ROOT_LOCALE, name).description(RepositoryFile.ROOT_LOCALE, fileName).build();
         jpivotRepoFile = repository.createFile(parentFile.getId(), jpivotRepoFile, new SimpleRepositoryFileData(
             new ByteArrayInputStream(document.asXML().getBytes(document.getXMLEncoding())), LocaleHelper.getSystemEncoding(),
             "application/xml"), "Initial JPivot View Check-in");
