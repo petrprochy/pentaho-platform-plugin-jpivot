@@ -17,19 +17,6 @@
 
 package org.pentaho.jpivot;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -44,15 +31,9 @@ import org.pentaho.actionsequence.dom.ActionInputConstant;
 import org.pentaho.actionsequence.dom.ActionSequenceDocument;
 import org.pentaho.actionsequence.dom.IActionSequenceDocument;
 import org.pentaho.actionsequence.dom.actions.ActionFactory;
+import org.pentaho.jpivot.messages.Messages;
 import org.pentaho.platform.api.data.IDBDatasourceService;
-import org.pentaho.platform.api.engine.IOutputHandler;
-import org.pentaho.platform.api.engine.IParameterProvider;
-import org.pentaho.platform.api.engine.IPentahoSession;
-import org.pentaho.platform.api.engine.IRuntimeContext;
-import org.pentaho.platform.api.engine.ISolutionEngine;
-import org.pentaho.platform.api.engine.ObjectFactoryException;
-import org.pentaho.platform.api.engine.PentahoAccessControlException;
-import org.pentaho.platform.api.engine.PentahoSystemException;
+import org.pentaho.platform.api.engine.*;
 import org.pentaho.platform.api.util.XmlParseException;
 import org.pentaho.platform.engine.core.output.SimpleOutputHandler;
 import org.pentaho.platform.engine.core.solution.SimpleParameterProvider;
@@ -72,7 +53,14 @@ import org.pentaho.platform.web.http.api.resources.XactionUtil;
 import org.pentaho.platform.web.http.request.HttpRequestParameterProvider;
 import org.pentaho.platform.web.http.session.HttpSessionParameterProvider;
 import org.pentaho.platform.web.servlet.ServletBase;
-import org.pentaho.platform.web.servlet.messages.Messages;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class AnalysisViewService extends ServletBase {
 
@@ -332,7 +320,7 @@ public class AnalysisViewService extends ServletBase {
 
       SimpleUrlFactory urlFactory = new SimpleUrlFactory( "" );
 
-      solutionEngine.execute( xaction, xactionFilename, Messages.getInstance().getString( "BaseTest.DEBUG_JUNIT_TEST" ),
+      solutionEngine.execute( xaction, xactionFilename, getClass().getName(),
         false, true, instanceId, false, parameterProviders, outputHandler, null,
         urlFactory, messages );
 
@@ -495,8 +483,8 @@ public class AnalysisViewService extends ServletBase {
     }
 
     String xaction = new AnalysisViewService()
-      .generateXAction( userSession, Messages.getInstance().getString( "BaseTest.DEFAULT_TITLE" ),
-        Messages.getInstance().getString( "BaseTest.DEFAULT_DESCRIPTION" ), model, jndi, jdbc, cube );
+      .generateXAction( userSession, ANALYSIS_VIEW_TEMPLATE,
+        ANALYSIS_VIEW_TEMPLATE, model, jndi, jdbc, cube );
 
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     SimpleOutputHandler outputHandler = new SimpleOutputHandler( outputStream, true );
@@ -515,7 +503,7 @@ public class AnalysisViewService extends ServletBase {
     SimpleUrlFactory urlFactory = new SimpleUrlFactory( "" );
 
     IRuntimeContext context = solutionEngine.execute( xaction, "default.xjpivot",
-      Messages.getInstance().getString( "BaseTest.DEBUG_JUNIT_TEST" ), false, true, instanceId,
+      getClass().getName(), false, true, instanceId,
       false, parameterProviders, outputHandler, null, urlFactory, messages );
 
 

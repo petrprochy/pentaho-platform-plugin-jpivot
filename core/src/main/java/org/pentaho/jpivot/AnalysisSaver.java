@@ -17,12 +17,7 @@
 
 package org.pentaho.jpivot;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -44,7 +39,11 @@ import org.pentaho.platform.plugin.action.mondrian.MissingParameterException;
 import org.pentaho.platform.util.messages.LocaleHelper;
 import org.pentaho.platform.util.xml.XmlHelper;
 
-import static org.pentaho.platform.repository.RepositoryFilenameUtils.removeExtension;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utility class used to save an analysis action sequence from a JPivot view.
@@ -100,7 +99,7 @@ public class AnalysisSaver extends PentahoMessenger {
         String jdbc = null; // NOT SUPPORTED AT THIS TIME
         String cube = null; // No need, MDX statement already exists 
         
-        String xaction = new AnalysisViewService().generateXAction(PentahoSessionHolder.getSession(), Messages.getInstance().getString("BaseTest.DEFAULT_TITLE"), Messages.getInstance().getString("BaseTest.DEFAULT_DESCRIPTION"), model, jndi, jdbc, cube);
+        String xaction = new AnalysisViewService().generateXAction(PentahoSessionHolder.getSession(), null, AnalysisViewService.ANALYSIS_VIEW_TEMPLATE, model, jndi, jdbc, cube);
         org.dom4j.io.SAXReader reader = new org.dom4j.io.SAXReader();
         reader.setEntityResolver(new SolutionURIResolver());
         final String encoding = XmlHelper.getEncoding(xaction, null);
@@ -117,7 +116,7 @@ public class AnalysisSaver extends PentahoMessenger {
       // Update the document with the stuff we passed in on the props
       document = AnalysisSaver.updateDocument(document, props);
       fileName = fileName.endsWith(AnalysisSaver.SUFFIX) ? fileName : fileName + AnalysisSaver.SUFFIX;
-      final String name = removeExtension(fileName);
+      final String name = FilenameUtils.removeExtension(fileName);
 
       path = cleansePath(path, fileName);
       
