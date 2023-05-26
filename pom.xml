@@ -13,8 +13,8 @@
   <name>Pentaho JPivot Plugin Parent</name>
 
   <scm>
-    <connection>scm:git:git@github.com:petrprochy/pentaho-platform-plugin-jpivot.git</connection>
-    <developerConnection>scm:git:git@github.com:petrprochy/pentaho-platform-plugin-jpivot.git</developerConnection>
+    <connection>scm:git:https://github.com/petrprochy/pentaho-platform-plugin-jpivot.git</connection>
+    <developerConnection>scm:git:https://github.com/petrprochy/pentaho-platform-plugin-jpivot.git</developerConnection>
     <url>https://github.com/petrprochy/pentaho-platform-plugin-jpivot</url>
   </scm>
 
