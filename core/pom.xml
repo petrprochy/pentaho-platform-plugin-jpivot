@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.pentaho</groupId>
     <artifactId>jpivot-plugin-parent</artifactId>
-    <version>9.4.0.0-343-1-SNAPSHOT</version>
+    <version>9.4.0.0-343-1</version>
   </parent>
 
   <artifactId>jpivot-plugin-core</artifactId>
