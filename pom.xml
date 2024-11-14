@@ -22,6 +22,7 @@
   <properties>
     <pentaho-actionsequence-dom.version>9.4.0.0-343</pentaho-actionsequence-dom.version>
     <platform.version>9.4.0.0-343</platform.version>
+    <mondrian.version>${platform.version}</mondrian.version>
 
     <jpivot.version>1.8.0-280316</jpivot.version>
     <wcf.version>1.8.0-130820</wcf.version>

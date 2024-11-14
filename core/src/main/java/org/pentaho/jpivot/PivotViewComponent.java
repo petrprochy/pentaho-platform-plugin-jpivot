@@ -24,7 +24,6 @@ import org.pentaho.jpivot.messages.Messages;
 import org.pentaho.platform.engine.core.system.PentahoRequestContextHolder;
 import org.pentaho.platform.engine.services.solution.ComponentBase;
 import org.pentaho.platform.engine.services.solution.StandardSettings;
-import org.pentaho.platform.plugin.action.mondrian.MondrianModelComponent;
 import org.pentaho.platform.util.messages.LocaleHelper;
 
 import java.io.UnsupportedEncodingException;
@@ -460,10 +459,14 @@ public class PivotViewComponent extends ComponentBase {
     // if query = "default", generate a query
     if (query.equals(StandardSettings.DEFAULT)) {
       // get the default cube.  This is only useful if the schema contains more
-      String cube = getInputStringValue(PivotViewComponent.CUBE);
+      final String cube = getInputStringValue(PivotViewComponent.CUBE);
       // we need to generate a query.
-      query = MondrianModelComponent.getInitialQuery(model, dataSource, cube, roleName, getSession());
-      
+      final MondrianModelComponent mc = new MondrianModelComponent();
+      final String m = model;
+      final String r = roleName;
+      query = Optional.ofNullable(mc.resolveQuery(m, dataSource, cube, r)).
+          orElseGet(() -> mc.fallbackResolveQuery(m, dataSource, cube, r));
+
       if (query == null) {
         error(Messages.getInstance().getErrorString("PivotView.ERROR_0010_QUERY_GENERATION_FAILED")); //$NON-NLS-1$
         return false;

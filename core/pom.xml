@@ -13,6 +13,18 @@
   
   <dependencies>
     <dependency>
+      <groupId>pentaho</groupId>
+      <artifactId>mondrian</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>pentaho</groupId>
+      <artifactId>pentaho-connections</artifactId>
+      <version>${platform.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>com.tonbeller</groupId>
       <artifactId>jpivot</artifactId>
     </dependency>

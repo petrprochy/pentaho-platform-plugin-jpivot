@@ -11,4 +11,7 @@
 
   <!-- Settings for the PUC "new" toolbar dropdown: priority, label, tabName, action-url -->
   <new-toolbar-button>4,newJPivot,jpivot,plugin/jpivot/AnalysisViewService?component=newView</new-toolbar-button>
+
+  <!-- Available values: ALL, YEAR, QUARTER, MONTH -->
+  <new-view-level>YEAR</new-view-level>
 </settings>

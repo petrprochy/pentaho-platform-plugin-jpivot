@@ -78,10 +78,9 @@ public final class Pivot_jsp extends org.apache.jasper.runtime.HttpJspBase {
 
   private static final ResourceBundle messages = ResourceBundle.getBundle( "org.pentaho.jpivot.messages" );
   private static final String deprecationWarningMessage = messages.getString( "deprecationWarning" );
-  private static final String SETTINGS_FILE = AnalysisViewService.jpivotPluginDir + "/settings.xml";
 
   private static boolean writeDeprecationWarning() {
-    String showWarning = PentahoSystem.getSystemSetting( SETTINGS_FILE, "show-deprecation-warning", "true" );
+    String showWarning = PentahoSystem.getSystemSetting( AnalysisViewService.SETTINGS_FILE, "show-deprecation-warning", "true" );
     return Boolean.valueOf( showWarning );
   }
 

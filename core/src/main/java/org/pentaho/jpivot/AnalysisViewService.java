@@ -65,6 +65,7 @@ import java.util.List;
 public class AnalysisViewService extends ServletBase {
 
   public static final String jpivotPluginDir = "jpivot";
+  public static final String SETTINGS_FILE = jpivotPluginDir + "/settings.xml";
 
   public static String ANALYSIS_VIEW_TEMPLATE = "analysis_view_template.xjpivot";
 
