@@ -50,6 +50,12 @@ public class PivotViewComponent extends ComponentBase {
 
   public static final String SHOWGRID = "showgrid"; //$NON-NLS-1$
 
+  public static final String LEVEL_STYLE = "levelstyle"; //$NON-NLS-1$
+
+  public static final String HIDE_SPANS = "hidespans"; //$NON-NLS-1$
+
+  public static final String SHOW_PROPERTIES = "showproperties"; //$NON-NLS-1$
+
   public static final String CHARTTYPE = "charttype"; //$NON-NLS-1$
 
   public static final String CHARTLOCATION = "chartlocation"; //$NON-NLS-1$
@@ -445,6 +451,10 @@ public class PivotViewComponent extends ComponentBase {
       }
     }
 
+    setOutputValue(LEVEL_STYLE);
+    setOutputValue(HIDE_SPANS);
+    setOutputValue(SHOW_PROPERTIES);
+
     // process the data source connection
     String dataSource = getInputStringValue(StandardSettings.JNDI);
     setOutputValue(StandardSettings.CONNECTION, dataSource); 
@@ -497,6 +507,14 @@ public class PivotViewComponent extends ComponentBase {
       }
     }
     return true;
+  }
+
+  private void setOutputValue(String property) {
+    if (isDefinedOutput(property)) {
+      if (isDefinedInput(property)) {
+        setOutputValue(property, getInputStringValue(property));
+      }
+    }
   }
 
   @Override
