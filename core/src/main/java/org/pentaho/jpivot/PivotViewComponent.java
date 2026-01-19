@@ -126,8 +126,12 @@ public class PivotViewComponent extends ComponentBase {
 
   private static final long serialVersionUID = -327755990995067478L;
 
-  private static final Collection ignoreInputs = Arrays.asList(new String[] { PivotViewComponent.MODE,
-      StandardSettings.SQL_QUERY, StandardSettings.QUERY_NAME, PivotViewComponent.VIEWER });
+  private static final Collection<String> ignoreInputs = Arrays.asList(
+      PivotViewComponent.MODE,
+      StandardSettings.SQL_QUERY,
+      StandardSettings.QUERY_NAME,
+      PivotViewComponent.VIEWER
+  );
 
   @Override
   public Log getLogger() {
@@ -182,12 +186,11 @@ public class PivotViewComponent extends ComponentBase {
   public void done() {
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   protected boolean executeAction() throws Throwable {
 
-    Set inputNames = getInputNames();
-    Set outputNames = getOutputNames();
+    @SuppressWarnings("unchecked") Set<String> inputNames = getInputNames();
+    @SuppressWarnings("unchecked") Set<String> outputNames = getOutputNames();
 
     String mode = getInputStringValue(PivotViewComponent.MODE);
     if (!mode.equals(PivotViewComponent.EXECUTE)) {
@@ -197,17 +200,18 @@ public class PivotViewComponent extends ComponentBase {
         error(Messages.getInstance().getString("PivotView.ERROR_0006_VIEWER_NOT_DEFINED")); //$NON-NLS-1$
         return false;
       }
-      String viewer = getInputStringValue(PivotViewComponent.VIEWER);
-      if (viewer.indexOf('?') == -1) {
-        viewer += "?solution=" + getSolutionName() + "&path=" + encode(getSolutionPath()) + "&action=" + encode(getActionName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      final StringBuilder viewer = new StringBuilder(getInputStringValue(PivotViewComponent.VIEWER));
+      if (viewer.toString().indexOf('?') == -1) {
+        viewer.append("?solution=").append(getSolutionName()).append("&path=").append(encode(getSolutionPath())).append("&action=")
+            .append(encode(getActionName())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       } else {
-        viewer += "solution=" + getSolutionName() + "&path=" + encode(getSolutionPath()) + "&action=" + encode(getActionName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        viewer.append("solution=").append(getSolutionName()).append("&path=").append(encode(getSolutionPath())).append("&action=")
+            .append(encode(getActionName())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       }
 
-      for (Iterator it = inputNames.iterator(); it.hasNext();) {
-        String name = (String) it.next();
+      for (String name : inputNames) {
         if (!PivotViewComponent.ignoreInputs.contains(name)) {
-          viewer += "&" + name + "=" + encode(getInputStringValue(name)); //$NON-NLS-1$ //$NON-NLS-2$
+          viewer.append("&").append(name).append("=").append(encode(getInputStringValue(name))); //$NON-NLS-1$ //$NON-NLS-2$
         }
       }
 
@@ -231,225 +235,39 @@ public class PivotViewComponent extends ComponentBase {
 
     setOutputValue(StandardSettings.DATA_MODEL, model);
 
-    if (isDefinedOutput(PivotViewComponent.CHARTTYPE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTTYPE)) {
-        setOutputValue(PivotViewComponent.CHARTTYPE, getInputStringValue(PivotViewComponent.CHARTTYPE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.SHOWGRID)) {
-      if (isDefinedInput(PivotViewComponent.SHOWGRID)) {
-        setOutputValue(PivotViewComponent.SHOWGRID, getInputStringValue(PivotViewComponent.SHOWGRID));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTLOCATION)) {
-      if (isDefinedInput(PivotViewComponent.CHARTLOCATION)) {
-        setOutputValue(PivotViewComponent.CHARTLOCATION, getInputStringValue(PivotViewComponent.CHARTLOCATION));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTWIDTH)) {
-      if (isDefinedInput(PivotViewComponent.CHARTWIDTH)) {
-        setOutputValue(PivotViewComponent.CHARTWIDTH, getInputStringValue(PivotViewComponent.CHARTWIDTH));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTHEIGHT)) {
-      if (isDefinedInput(PivotViewComponent.CHARTHEIGHT)) {
-        setOutputValue(PivotViewComponent.CHARTHEIGHT, getInputStringValue(PivotViewComponent.CHARTHEIGHT));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTDRILLTHROUGHENABLED)) {
-      if (isDefinedInput(PivotViewComponent.CHARTDRILLTHROUGHENABLED)) {
-        setOutputValue(PivotViewComponent.CHARTDRILLTHROUGHENABLED,
-            getInputStringValue(PivotViewComponent.CHARTDRILLTHROUGHENABLED));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTTITLE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTTITLE)) {
-        setOutputValue(PivotViewComponent.CHARTTITLE, getInputStringValue(PivotViewComponent.CHARTTITLE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTTITLEFONTFAMILY)) {
-      if (isDefinedInput(PivotViewComponent.CHARTTITLEFONTFAMILY)) {
-        setOutputValue(PivotViewComponent.CHARTTITLEFONTFAMILY,
-            getInputStringValue(PivotViewComponent.CHARTTITLEFONTFAMILY));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTTITLEFONTSTYLE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTTITLEFONTSTYLE)) {
-        setOutputValue(PivotViewComponent.CHARTTITLEFONTSTYLE,
-            getInputStringValue(PivotViewComponent.CHARTTITLEFONTSTYLE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTTITLEFONTSIZE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTTITLEFONTSIZE)) {
-        setOutputValue(PivotViewComponent.CHARTTITLEFONTSIZE,
-            getInputStringValue(PivotViewComponent.CHARTTITLEFONTSIZE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTHORIZAXISLABEL)) {
-      if (isDefinedInput(PivotViewComponent.CHARTHORIZAXISLABEL)) {
-        setOutputValue(PivotViewComponent.CHARTHORIZAXISLABEL,
-            getInputStringValue(PivotViewComponent.CHARTHORIZAXISLABEL));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTVERTAXISLABEL)) {
-      if (isDefinedInput(PivotViewComponent.CHARTVERTAXISLABEL)) {
-        setOutputValue(PivotViewComponent.CHARTVERTAXISLABEL,
-            getInputStringValue(PivotViewComponent.CHARTVERTAXISLABEL));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISLABELFONTFAMILY)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISLABELFONTFAMILY)) {
-        setOutputValue(PivotViewComponent.CHARTAXISLABELFONTFAMILY,
-            getInputStringValue(PivotViewComponent.CHARTAXISLABELFONTFAMILY));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISLABELFONTSTYLE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISLABELFONTSTYLE)) {
-        setOutputValue(PivotViewComponent.CHARTAXISLABELFONTSTYLE,
-            getInputStringValue(PivotViewComponent.CHARTAXISLABELFONTSTYLE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISLABELFONTSIZE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISLABELFONTSIZE)) {
-        setOutputValue(PivotViewComponent.CHARTAXISLABELFONTSIZE,
-            getInputStringValue(PivotViewComponent.CHARTAXISLABELFONTSIZE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISTICKFONTFAMILY)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISTICKFONTFAMILY)) {
-        setOutputValue(PivotViewComponent.CHARTAXISTICKFONTFAMILY,
-            getInputStringValue(PivotViewComponent.CHARTAXISTICKFONTFAMILY));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISTICKFONTSTYLE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISTICKFONTSTYLE)) {
-        setOutputValue(PivotViewComponent.CHARTAXISTICKFONTSTYLE,
-            getInputStringValue(PivotViewComponent.CHARTAXISTICKFONTSTYLE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISTICKFONTSIZE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISTICKFONTSIZE)) {
-        setOutputValue(PivotViewComponent.CHARTAXISTICKFONTSIZE,
-            getInputStringValue(PivotViewComponent.CHARTAXISTICKFONTSIZE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTAXISTICKLABELROTATION)) {
-      if (isDefinedInput(PivotViewComponent.CHARTAXISTICKLABELROTATION)) {
-        setOutputValue(PivotViewComponent.CHARTAXISTICKLABELROTATION,
-            getInputStringValue(PivotViewComponent.CHARTAXISTICKLABELROTATION));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSHOWLEGEND)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSHOWLEGEND)) {
-        setOutputValue(PivotViewComponent.CHARTSHOWLEGEND, getInputStringValue(PivotViewComponent.CHARTSHOWLEGEND));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTLEGENDLOCATION)) {
-      if (isDefinedInput(PivotViewComponent.CHARTLEGENDLOCATION)) {
-        setOutputValue(PivotViewComponent.CHARTLEGENDLOCATION,
-            getInputStringValue(PivotViewComponent.CHARTLEGENDLOCATION));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTLEGENDFONTFAMILY)) {
-      if (isDefinedInput(PivotViewComponent.CHARTLEGENDFONTFAMILY)) {
-        setOutputValue(PivotViewComponent.CHARTLEGENDFONTFAMILY,
-            getInputStringValue(PivotViewComponent.CHARTLEGENDFONTFAMILY));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTLEGENDFONTSTYLE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTLEGENDFONTSTYLE)) {
-        setOutputValue(PivotViewComponent.CHARTLEGENDFONTSTYLE,
-            getInputStringValue(PivotViewComponent.CHARTLEGENDFONTSTYLE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTLEGENDFONTSIZE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTLEGENDFONTSIZE)) {
-        setOutputValue(PivotViewComponent.CHARTLEGENDFONTSIZE,
-            getInputStringValue(PivotViewComponent.CHARTLEGENDFONTSIZE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSHOWSLICER)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSHOWSLICER)) {
-        setOutputValue(PivotViewComponent.CHARTSHOWSLICER, getInputStringValue(PivotViewComponent.CHARTSHOWSLICER));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSLICERLOCATION)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSLICERLOCATION)) {
-        setOutputValue(PivotViewComponent.CHARTSLICERLOCATION,
-            getInputStringValue(PivotViewComponent.CHARTSLICERLOCATION));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSLICERALIGNMENT)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSLICERALIGNMENT)) {
-        setOutputValue(PivotViewComponent.CHARTSLICERALIGNMENT,
-            getInputStringValue(PivotViewComponent.CHARTSLICERALIGNMENT));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSLICERFONTFAMILY)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSLICERFONTFAMILY)) {
-        setOutputValue(PivotViewComponent.CHARTSLICERFONTFAMILY,
-            getInputStringValue(PivotViewComponent.CHARTSLICERFONTFAMILY));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSLICERFONTSTYLE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSLICERFONTSTYLE)) {
-        setOutputValue(PivotViewComponent.CHARTSLICERFONTSTYLE,
-            getInputStringValue(PivotViewComponent.CHARTSLICERFONTSTYLE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTSLICERFONTSIZE)) {
-      if (isDefinedInput(PivotViewComponent.CHARTSLICERFONTSIZE)) {
-        setOutputValue(PivotViewComponent.CHARTSLICERFONTSIZE,
-            getInputStringValue(PivotViewComponent.CHARTSLICERFONTSIZE));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTBACKGROUNDR)) {
-      if (isDefinedInput(PivotViewComponent.CHARTBACKGROUNDR)) {
-        setOutputValue(PivotViewComponent.CHARTBACKGROUNDR, getInputStringValue(PivotViewComponent.CHARTBACKGROUNDR));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTBACKGROUNDG)) {
-      if (isDefinedInput(PivotViewComponent.CHARTBACKGROUNDG)) {
-        setOutputValue(PivotViewComponent.CHARTBACKGROUNDG, getInputStringValue(PivotViewComponent.CHARTBACKGROUNDG));
-      }
-    }
-
-    if (isDefinedOutput(PivotViewComponent.CHARTBACKGROUNDB)) {
-      if (isDefinedInput(PivotViewComponent.CHARTBACKGROUNDB)) {
-        setOutputValue(PivotViewComponent.CHARTBACKGROUNDB, getInputStringValue(PivotViewComponent.CHARTBACKGROUNDB));
-      }
-    }
+    setOutputValue(CHARTTYPE);
+    setOutputValue(SHOWGRID);
+    setOutputValue(CHARTLOCATION);
+    setOutputValue(CHARTWIDTH);
+    setOutputValue(CHARTHEIGHT);
+    setOutputValue(CHARTDRILLTHROUGHENABLED);
+    setOutputValue(CHARTTITLE);
+    setOutputValue(CHARTTITLEFONTFAMILY);
+    setOutputValue(CHARTTITLEFONTSTYLE);
+    setOutputValue(CHARTTITLEFONTSIZE);
+    setOutputValue(CHARTHORIZAXISLABEL);
+    setOutputValue(CHARTVERTAXISLABEL);
+    setOutputValue(CHARTAXISLABELFONTFAMILY);
+    setOutputValue(CHARTAXISLABELFONTSTYLE);
+    setOutputValue(CHARTAXISLABELFONTSIZE);
+    setOutputValue(CHARTAXISTICKFONTFAMILY);
+    setOutputValue(CHARTAXISTICKFONTSTYLE);
+    setOutputValue(CHARTAXISTICKFONTSIZE);
+    setOutputValue(CHARTAXISTICKLABELROTATION);
+    setOutputValue(CHARTSHOWLEGEND);
+    setOutputValue(CHARTLEGENDLOCATION);
+    setOutputValue(CHARTLEGENDFONTFAMILY);
+    setOutputValue(CHARTLEGENDFONTSTYLE);
+    setOutputValue(CHARTLEGENDFONTSIZE);
+    setOutputValue(CHARTSHOWSLICER);
+    setOutputValue(CHARTSLICERLOCATION);
+    setOutputValue(CHARTSLICERALIGNMENT);
+    setOutputValue(CHARTSLICERFONTFAMILY);
+    setOutputValue(CHARTSLICERFONTSTYLE);
+    setOutputValue(CHARTSLICERFONTSIZE);
+    setOutputValue( CHARTBACKGROUNDR);
+    setOutputValue(CHARTBACKGROUNDG);
+    setOutputValue(CHARTBACKGROUNDB);
 
     setOutputValue(LEVEL_STYLE);
     setOutputValue(HIDE_SPANS);
@@ -490,15 +308,13 @@ public class PivotViewComponent extends ComponentBase {
     setOutputValue(PivotViewComponent.TITLE, title);
 
     // now process the options
-    ArrayList options = new ArrayList();
+    ArrayList<String> options = new ArrayList<>();
     Element optionsNode = (Element) getComponentDefinition().selectSingleNode("options"); //$NON-NLS-1$
-    List optionNodes = optionsNode.elements();
-    Iterator optionsIterator = optionNodes.iterator();
-    while (optionsIterator.hasNext()) {
-      Element optionNode = (Element) optionsIterator.next();
+    List<Element> optionNodes = optionsNode.elements();
+    for (Element optionNode : optionNodes) {
       options.add(optionNode.getName());
     }
-    if (options.size() > 0) {
+    if (!options.isEmpty()) {
       if (outputNames.contains(PivotViewComponent.OPTIONS)) {
         setOutputValue(PivotViewComponent.OPTIONS, options);
       } else {
