@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.pentaho</groupId>
     <artifactId>jpivot-plugin-assemblies</artifactId>
-    <version>9.4.0.0-343-2</version>
+    <version>9.4.0.0-343-3-SNAPSHOT</version>
   </parent>
 
   <artifactId>jpivot-plugin-static</artifactId>
