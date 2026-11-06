@@ -17,10 +17,12 @@
 
 package org.pentaho.jpivot.proxies;
 
+import com.tonbeller.wcf.controller.MultiPartEnabledRequest;
+import org.pentaho.platform.util.messages.LocaleHelper;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import com.tonbeller.wcf.controller.MultiPartEnabledRequest;
+import java.util.Locale;
 
 public class ProxyHttpServletRequest extends MultiPartEnabledRequest {
 
@@ -41,4 +43,8 @@ public class ProxyHttpServletRequest extends MultiPartEnabledRequest {
     return super.getContextPath() + "/content/jpivot";
   }
 
+  @Override
+  public Locale getLocale() {
+    return LocaleHelper.getLocale();
+  }
 }
