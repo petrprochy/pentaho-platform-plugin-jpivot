@@ -23,6 +23,7 @@ import org.pentaho.platform.util.messages.LocaleHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
+import java.util.Optional;
 
 public class ProxyHttpServletRequest extends MultiPartEnabledRequest {
 
@@ -45,6 +46,6 @@ public class ProxyHttpServletRequest extends MultiPartEnabledRequest {
 
   @Override
   public Locale getLocale() {
-    return LocaleHelper.getLocale();
+    return Optional.ofNullable(LocaleHelper.getLocale()).orElse(super.getLocale());
   }
 }
